@@ -27,13 +27,6 @@ function Formations({
     setFormations(() => newFormations);
   }, [minute, data]);
 
-  // const ref = useCallback((node) => {
-  //   if (node !== null) {
-  //     clearFootballPitch(node);
-  //     drawFootballPitch(node);
-  //   }
-  // }, []);
-
   useEffect(() => {
     drawFormations(formations, playerIdDictionary, setPlayer);
   }, [formations, playerIdDictionary]);
@@ -53,7 +46,7 @@ function Formations({
         />
       </Form.Label>
       {/* <div className="pitch-container" data-testid="pitch-container" ref={ref} /> */}
-      <FootballPitch />
+      <FootballPitch instance="formations" />
     </>
   );
 }

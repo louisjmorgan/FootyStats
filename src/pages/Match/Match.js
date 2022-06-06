@@ -39,8 +39,7 @@ export default function Match() {
           <Tabs
             activeKey={tabKey}
             onSelect={(k) => setTabKey(k)}
-            className="m-5"
-            mountOnEnter
+            className="m-5 justify-content-center"
           >
             <Tab eventKey="formations" title="Formations">
               <Formations
@@ -57,7 +56,11 @@ export default function Match() {
                 : ''}
             </Tab>
             <Tab eventKey="chalkboard" title="Chalkboard">
-              <Chalkboard id={id} teams={{ home: match.home.teamId, away: match.away.teamId }} />
+              <Chalkboard
+                id={id}
+                teams={{ home: match.home.teamId, away: match.away.teamId }}
+                stats2={{ home: match.home.stats, away: match.away.stats }}
+              />
             </Tab>
 
           </Tabs>

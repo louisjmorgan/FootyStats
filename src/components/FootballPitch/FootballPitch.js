@@ -1,16 +1,17 @@
+/* eslint-disable react/prop-types */
 import { useCallback } from 'react';
 import { drawFootballPitch, clearFootballPitch } from './drawFootballPitch';
 
-function FootballPitch() {
+function FootballPitch({ instance }) {
   const ref = useCallback((node) => {
     if (node !== null) {
       clearFootballPitch(node);
-      drawFootballPitch(node);
+      drawFootballPitch(node, instance);
     }
-  }, []);
+  }, [instance]);
 
   return (
-    <div className="pitch-container" data-testid="pitch-container" ref={ref} />
+    <div className="pitch-container" data-testid="pitch-container" ref={ref} key={instance} />
   );
 }
 

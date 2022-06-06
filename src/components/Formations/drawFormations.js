@@ -16,9 +16,9 @@ export default function drawFormations(data, playerIdDictionary, setPlayer) {
     formations.push(...formation);
   });
 
-  const pitch = d3.select('.pitch');
+  const pitch = d3.select('.formations');
 
-  // add teams to pitch
+  // scale coordinates to pitch size
   const xScaleHome = d3.scaleLinear().domain([0, 10]).range([WIDTH / 30, WIDTH / 2]);
   const yScale = d3.scaleLinear().domain([0, 10]).range([HEIGHT, 0]);
   const xScaleAway = d3.scaleLinear().domain([10, 0]).range([WIDTH / 2, (WIDTH * 29) / 30]);
@@ -41,7 +41,7 @@ export default function drawFormations(data, playerIdDictionary, setPlayer) {
     .style('fill', (d) => (d.isHome ? 'red' : 'blue'));
 
   // add jersey numbers
-  group.enter().append('text')
+  group.append('text')
     .attr('dx', (d) => (d.isHome
       ? xScaleHome(d.formationPosition.vertical)
       : xScaleAway(d.formationPosition.vertical)))

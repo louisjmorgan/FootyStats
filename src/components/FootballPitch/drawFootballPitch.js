@@ -4,18 +4,18 @@ const WIDTH = 1000;
 const HEIGHT = 500;
 const STROKE_WIDTH = 5;
 
-function drawFootballPitch(ref) {
+function drawFootballPitch(ref, instance) {
   // let container;
   // if (ref) container = d3.select(ref);
   // else container = d3.select('.pitch-container');
 
-  const container = (ref ? d3.select(ref) : d3.select('.pitch-container'))// select the pitch element
+  const container = d3.select(ref)// select the pitch element
     .append('svg') // append an SVG element to the body
     .attr('width', WIDTH + STROKE_WIDTH * 2)
     .attr('height', HEIGHT + STROKE_WIDTH * 2)
     .style('display', 'block')
-    .classed('pitch', true)
-    .classed('mx-auto', true);
+    .classed('mx-auto', true)
+    .classed(`${instance}`, true);
 
   // draw a rectangle - pitch
   container.append('rect') // attach a rectangle
