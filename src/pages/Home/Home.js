@@ -13,7 +13,7 @@ export default function Home() {
 
   const links = matches.map((match) => (
     <Link key={match._id} to={`/matches/${match._id}`}>
-      <Button variant="outline-primary">
+      <Button variant="outline-primary" className="border-2">
         {match.home.name}
         {' '}
         {match.ftScore}
@@ -25,10 +25,12 @@ export default function Home() {
 
   return (
     <Container fluid className="App">
-      <h1 className="p-5 text-center">Footy Stats</h1>
-      <Stack className="d-flex flex-wrap justify-content-center" direction="horizontal" gap={2}>
-        {links}
-      </Stack>
+      <h1 className="p-5 text-center text-secondary">Footy Stats</h1>
+      <Container fluid className="match-buttons">
+        <Stack className="w-75 mx-auto d-flex flex-wrap justify-content-center" direction="horizontal" gap={2}>
+          {links}
+        </Stack>
+      </Container>
     </Container>
   );
 }

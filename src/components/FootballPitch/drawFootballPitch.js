@@ -3,6 +3,8 @@ import * as d3 from 'd3';
 const WIDTH = 1000;
 const HEIGHT = 500;
 const STROKE_WIDTH = 5;
+const LINE_COLOR = '#FDFFFC';
+const PITCH_COLOR = '#7eaf34';
 
 function drawFootballPitch(ref, instance) {
   // let container;
@@ -24,8 +26,8 @@ function drawFootballPitch(ref, instance) {
     .attr('height', HEIGHT) // set the height
     .attr('width', WIDTH) // set the width
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
-    .style('fill', '#80B280'); // set the fill colour
+    .style('stroke', LINE_COLOR) // set the line colour
+    .style('fill', PITCH_COLOR); // set the fill colour
 
   // draw a rectangle - halves
   container.append('rect') // attach a rectangle
@@ -34,8 +36,8 @@ function drawFootballPitch(ref, instance) {
     .attr('height', HEIGHT) // set the height
     .attr('width', WIDTH / 2) // set the width
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
-    .style('fill', '#80B280'); // set the fill colour
+    .style('stroke', LINE_COLOR) // set the line colour
+    .style('fill', PITCH_COLOR); // set the fill colour
 
   // draw a circle - center circle
   container.append('circle') // attach a circle
@@ -43,7 +45,7 @@ function drawFootballPitch(ref, instance) {
     .attr('cy', HEIGHT / 2) // position the y-centre
     .attr('r', HEIGHT / 10) // set the radius
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
+    .style('stroke', LINE_COLOR) // set the line colour
     .style('fill', 'none'); // set the fill colour
 
   // draw a rectangle - penalty area 1
@@ -53,8 +55,8 @@ function drawFootballPitch(ref, instance) {
     .attr('height', HEIGHT / 1.75) // set the height
     .attr('width', WIDTH / 6) // set the width
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
-    .style('fill', '#80B280'); // set the fill colour
+    .style('stroke', LINE_COLOR) // set the line colour
+    .style('fill', PITCH_COLOR); // set the fill colour
 
   // draw a rectangle - penalty area 2
   container.append('rect') // attach a rectangle
@@ -63,8 +65,8 @@ function drawFootballPitch(ref, instance) {
     .attr('height', HEIGHT / 1.75) // set the height
     .attr('width', WIDTH / 6) // set the width
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
-    .style('fill', '#80B280'); // set the fill colour
+    .style('stroke', LINE_COLOR) // set the line colour
+    .style('fill', PITCH_COLOR); // set the fill colour
 
   // draw a rectangle - six yard box 1
   container.append('rect') // attach a rectangle
@@ -73,8 +75,8 @@ function drawFootballPitch(ref, instance) {
     .attr('height', HEIGHT / 3.8) // set the height
     .attr('width', WIDTH / 16.7) // set the width
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
-    .style('fill', '#80B280'); // set the fill colour
+    .style('stroke', LINE_COLOR) // set the line colour
+    .style('fill', PITCH_COLOR); // set the fill colour
 
   // draw a rectangle - six yard box 2
   container.append('rect') // attach a rectangle
@@ -83,29 +85,29 @@ function drawFootballPitch(ref, instance) {
     .attr('height', HEIGHT / 3.8) // set the height
     .attr('width', WIDTH / 16.7) // set the width
     .style('stroke-width', STROKE_WIDTH) // set the stroke width
-    .style('stroke', '#001400') // set the line colour
-    .style('fill', '#80B280'); // set the fill colour
+    .style('stroke', LINE_COLOR) // set the line colour
+    .style('fill', PITCH_COLOR); // set the fill colour
 
   // draw a circle - penalty spot 1
   container.append('circle') // attach a circle
     .attr('cx', WIDTH / 8.3) // position the x-centre
     .attr('cy', HEIGHT / 2) // position the y-centre
     .attr('r', HEIGHT / 100) // set the radius
-    .style('fill', '#001400'); // set the fill colour
+    .style('fill', LINE_COLOR); // set the fill colour
 
   // draw a circle - penalty spot 2
   container.append('circle') // attach a circle
     .attr('cx', WIDTH - WIDTH / 8.3) // position the x-centre
     .attr('cy', HEIGHT / 2) // position the y-centre
     .attr('r', HEIGHT / 100) // set the radius
-    .style('fill', '#001400'); // set the fill colour
+    .style('fill', LINE_COLOR); // set the fill colour
 
   // draw a circle - center spot
   container.append('circle') // attach a circle
     .attr('cx', WIDTH / 2) // position the x-centre
     .attr('cy', HEIGHT / 2) // position the y-centre
     .attr('r', HEIGHT / 100) // set the radius
-    .style('fill', '#001400'); // set the fill colour
+    .style('fill', LINE_COLOR); // set the fill colour
 
   const arc = d3.arc()
     .innerRadius(WIDTH / 14.3)
@@ -121,17 +123,18 @@ function drawFootballPitch(ref, instance) {
 
   container.append('path')
     .attr('d', arc)
-    .attr('fill', '#001400')
+    .attr('fill', LINE_COLOR)
     .attr('transform', `translate(${(WIDTH / 8.5) + STROKE_WIDTH}, ${(HEIGHT / 2) + STROKE_WIDTH})`);
 
   container.append('path')
     .attr('d', arc2)
-    .attr('fill', '#001400')
+    .attr('fill', LINE_COLOR)
     .attr('transform', `translate(${(WIDTH - WIDTH / 8.5) + STROKE_WIDTH}, ${(HEIGHT / 2) + STROKE_WIDTH})`);
 
   container.selectAll('rect').attr('transform', `translate(${STROKE_WIDTH}, ${STROKE_WIDTH})`);
   container.selectAll('circle').attr('transform', `translate(${STROKE_WIDTH}, ${STROKE_WIDTH})`);
 
+  container.attr('transform', `translate(-${STROKE_WIDTH / 2}, -${STROKE_WIDTH / 2})`);
   container.attr('data-testid', 'pitch');
 }
 

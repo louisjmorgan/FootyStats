@@ -1,18 +1,25 @@
+/* eslint-disable consistent-return */
 import * as d3 from 'd3';
 
 const WIDTH = 1000;
 const HEIGHT = 500;
 const STROKE_WIDTH = 5;
 
-export default function drawChalkboard(data, selection, teams) {
+export default function drawChalkboard(data, teams) {
   const events = data.map((event) => {
     const baseEvent = {
       startX: event.x,
       startY: event.y,
       isHome: Number(event.teamId) === Number(teams.home),
+
     };
     let extEvent = {};
-    if (selection.type === 'Pass') {
+    if (event.isShot === true) {
+      extEvent = {
+        endX: event.blockedX || 100,
+        endY: event.blockedY || event.goalMouthY,
+      };
+    } else {
       extEvent = {
         endX: event.endX,
         endY: event.endY,
@@ -72,8 +79,16 @@ export default function drawChalkboard(data, selection, teams) {
     .style('fill', (d) => (d.isHome ? 'red' : 'blue'));
 
   group.append('line')
-    .attr('x1', (d) => (d.isHome ? xScaleHome(d.startX) : xScaleAway(d.startX)))
-    .attr('y1', (d) => yScale(d.startY))
+    .attr('x1', (d) => {
+      if (d.endX) {
+        return (d.isHome ? xScaleHome(d.startX) : xScaleAway(d.startX));
+      }
+    })
+    .attr('y1', (d) => {
+      if (d.endY) {
+        return yScale(d.startY);
+      }
+    })
     .attr('x2', (d) => (d.isHome ? xScaleHome(d.endX) : xScaleAway(d.endX)))
     .attr('y2', (d) => yScale(d.endY))
     .style('stroke-width', 3)

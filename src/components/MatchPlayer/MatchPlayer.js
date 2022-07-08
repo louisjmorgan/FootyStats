@@ -2,7 +2,6 @@
 import { Table } from 'react-bootstrap';
 
 function MatchPlayer({ data }) {
-  console.log(data.stats);
   const tableContent = Object.entries(data.stats).map(([name, value]) => {
     const normalizeName = name.replace(/([A-Z])/g, ' $1');
     const displayName = normalizeName.charAt(0).toUpperCase() + normalizeName.slice(1);

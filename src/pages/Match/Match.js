@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Formations, MatchPlayer } from 'components';
-import { getMatch } from 'api';
+import { getMatch, getMatchEvents } from 'api';
 import Chalkboard from 'components/Chalkboard/Chalkboard';
+import Heatmaps from 'components/Heatmaps/Heatmaps';
 
 export default function Match() {
   const { id } = useParams();
-  const [match, setMatch] = useState();
   const [title, setTitle] = useState();
-  const [player, setPlayer] = useState();
+  const [match, setMatch] = useState();
+  const [events, setEvents] = useState();
 
+  const [player, setPlayer] = useState();
   const handlePlayer = (selection) => {
     const { players } = match[selection.isHome ? 'home' : 'away'];
     const newPlayer = players.filter((p) => p.playerId === selection.id);
@@ -26,20 +28,24 @@ export default function Match() {
       .then((res) => {
         setMatch(() => res.match);
         setTitle(() => `${res.match.home.name} ${res.match.ftScore} ${res.match.away.name}`);
+      });
+    getMatchEvents(id)
+      .then((res) => {
+        setEvents(() => res.events[0].events);
       })
       .then(() => setLoaded(() => true));
   }, [id]);
 
   return (
     <div>
-      <h1 className="p-5 text-center">{title}</h1>
-
+      <h1 className="p-5 text-center text-secondary">{title}</h1>
       {isLoaded
         ? (
           <Tabs
             activeKey={tabKey}
             onSelect={(k) => setTabKey(k)}
             className="m-5 justify-content-center"
+            mountOnEnter
           >
             <Tab eventKey="formations" title="Formations">
               <Formations
@@ -57,12 +63,20 @@ export default function Match() {
             </Tab>
             <Tab eventKey="chalkboard" title="Chalkboard">
               <Chalkboard
-                id={id}
+                events={events}
                 teams={{ home: match.home.teamId, away: match.away.teamId }}
-                stats2={{ home: match.home.stats, away: match.away.stats }}
               />
             </Tab>
-
+            <Tab eventKey="heatmaps" title="Heatmaps">
+              <Heatmaps
+                players={{
+                  home: match.home.formations[0].playerIds,
+                  away: match.away.formations[0].playerIds,
+                }}
+                playerIdDictionary={match.playerIdNameDictionary}
+                events={events}
+              />
+            </Tab>
           </Tabs>
         )
 
