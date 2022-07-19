@@ -37,8 +37,8 @@ export default function Match() {
   }, [id]);
 
   return (
-    <div>
-      <h1 className="p-5 text-center text-secondary">{title}</h1>
+    <main className="mb-5">
+      <h1 className="p-5 text-center text-secondary match-heading">{title}</h1>
       {isLoaded
         ? (
           <Tabs
@@ -56,6 +56,7 @@ export default function Match() {
                 maxMinute={match.maxMinute}
                 playerIdDictionary={match.playerIdNameDictionary}
                 setPlayer={handlePlayer}
+                className="bg-secondary"
               />
               {player
                 ? <MatchPlayer data={player} />
@@ -65,6 +66,7 @@ export default function Match() {
               <Chalkboard
                 events={events}
                 teams={{ home: match.home.teamId, away: match.away.teamId }}
+                className="bg-secondary"
               />
             </Tab>
             <Tab eventKey="heatmaps" title="Heatmaps">
@@ -75,12 +77,13 @@ export default function Match() {
                 }}
                 playerIdDictionary={match.playerIdNameDictionary}
                 events={events}
+                className="bg-secondary"
               />
             </Tab>
           </Tabs>
         )
 
         : ''}
-    </div>
+    </main>
   );
 }

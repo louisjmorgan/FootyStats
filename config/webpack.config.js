@@ -8,7 +8,7 @@ let target = 'web';
 const plugins = [
   new CleanWebpackPlugin(),
   new HtmlWebpackPlugin({
-    title: 'React Webpack Template',
+    title: 'Footy Stats',
     template: path.resolve(__dirname, '..', './src/index.html'),
   }),
 ];

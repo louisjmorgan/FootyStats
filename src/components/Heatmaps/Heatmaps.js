@@ -1,12 +1,14 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable array-callback-return */
 /* eslint-disable react/prop-types */
 import FootballPitch from 'components/FootballPitch/FootballPitch';
 import {
-  useEffect, useRef, useState,
+  useEffect, useRef, useState, useCallback,
 } from 'react';
-import { Form, Tab, Tabs } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import { ParentSize } from '@visx/responsive';
 import h337 from 'heatmap.js';
 
 function getPlayerTouches(players, events) {
@@ -35,25 +37,30 @@ function Heatmaps({ players, playerIdDictionary, events }) {
   const [selectedPlayers, setSelectedPlayers] = useState(players);
   const [selectedTeam, setSelectedTeam] = useState('home');
   const [touches] = useState(getPlayerTouches(players, events));
-  const heatmap = useRef();
 
-  useEffect(() => {
+  const heatmap = useRef();
+  const ref = useCallback((node) => {
+    if (!node) return;
     heatmap.current = h337.create({
-      container: document.getElementById('heatmaps'),
+      container: node,
       radius: 50,
       maxOpacity: 0.5,
       minOpacity: 0,
       blur: 0.7,
     });
-    return (() => heatmap.current._renderer.canvas.remove());
-  }, []);
-
-  useEffect(() => {
-    if (!touches) return;
     heatmap.current.setData({
       data: getNetTouches(touches[selectedTeam], selectedPlayers[selectedTeam]),
     });
-  }, [touches, selectedPlayers, selectedTeam]);
+  }, []);
+
+  useEffect(() => (() => heatmap.current._renderer.canvas.remove()), []);
+
+  useEffect(() => {
+    if (!touches || !heatmap.current) return;
+    heatmap.current.setData({
+      data: getNetTouches(touches[selectedTeam], selectedPlayers[selectedTeam]),
+    });
+  }, [heatmap.current, touches, selectedPlayers, selectedTeam]);
 
   function handleSelectPlayer(player) {
     const index = selectedPlayers[selectedTeam].indexOf(player);
@@ -71,7 +78,7 @@ function Heatmaps({ players, playerIdDictionary, events }) {
   }
 
   function handleSelectAll() {
-    if (selectedPlayers[selectedTeam].length === 20) {
+    if (selectedPlayers[selectedTeam].length === players[selectedTeam].length) {
       setSelectedPlayers((prev) => ({
         ...prev,
         [selectedTeam]: [],
@@ -85,45 +92,88 @@ function Heatmaps({ players, playerIdDictionary, events }) {
   }
 
   return (
-    <div
-      style={{
-        height: '500px', width: '1000px', position: 'relative', margin: '0 auto',
-      }}
-    >
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={selectedTeam}
-        onSelect={(k) => setSelectedTeam(k)}
-        className="mb-3 justify-content-center"
-      >
-        <Tab eventKey="home" title="Home" />
-        <Tab eventKey="away" title="Away" />
-      </Tabs>
-      <div style={{
-        height: '100%',
-        width: '100%',
-        zIndex: 1,
-        position: 'absolute',
+    <div className="d-flex flex-column justify-content-center align-items-center">
+      <Form>
+        <div className="mb-3">
+          <Form.Group>
+            <Form.Check
+              inline
+              label="home"
+              value="home"
+              type="radio"
+              onChange={(e) => setSelectedTeam(e.target.value)}
+              checked={selectedTeam === 'home'}
+            />
+            <Form.Check
+              inline
+              label="away"
+              value="away"
+              type="radio"
+              onChange={(e) => setSelectedTeam(e.target.value)}
+              checked={selectedTeam === 'away'}
+            />
+          </Form.Group>
+        </div>
 
-      }}
-      >
-        <FootballPitch
-          instance="heatmaps"
-        />
-      </div>
+      </Form>
+      {/* <Tabs
+          id="controlled-tab-example"
+          activeKey={selectedTeam}
+          onSelect={(k) => setSelectedTeam(k)}
+          className="mb-3 justify-content-center"
+        >
+          <Tab eventKey="home" title="Home" />
+          <Tab eventKey="away" title="Away" />
+        </Tabs> */}
       <div
-        id="heatmaps"
-        style={{
-          height: '99%',
-          width: '99.5%',
-          zIndex: 100,
-          top: '5px',
-          left: '5px',
+        className="pitch-container"
+      >
+        <ParentSize>
+          {(parent) => {
+            const height = 0.9 * parent.height;
+            const width = 0.9 * parent.width;
+            const stroke = height / 100;
+            return (
+              width ? (
+                <>
+                  <svg
+                    width={width + stroke * 2}
+                    height={height + stroke * 2}
+                    style={{
+                      position: 'absolute',
+                      zIndex: 100,
+                      margin: '0 auto',
+                      left: 0,
+                      right: 0,
+                    }}
+                  >
+                    <FootballPitch
+                      key="heatmaps"
+                      width={width}
+                      height={height}
+                      stroke={stroke}
+                    />
+                  </svg>
+                  <div
+                    ref={ref}
+                    style={{
+                      position: 'absolute',
+                      height: `${height - stroke}px`,
+                      width: `${width - stroke}px`,
+                      zIndex: 100,
+                      margin: '0 auto',
+                      top: `${stroke * 1.5}5px`,
+                    }}
+                  />
+                </>
+              ) : ''
+            );
+          }}
+        </ParentSize>
 
-        }}
-      />
+      </div>
       <Form className="w-50 p-3 mx-auto d-flex flex-column align-items-center">
-        <Form.Check type="checkbox" label="Select All" checked={selectedPlayers[selectedTeam].length === 20} onClick={() => handleSelectAll()} />
+        <Form.Check type="checkbox" label="Select All" checked={selectedPlayers[selectedTeam].length === players[selectedTeam].length} onClick={() => handleSelectAll()} />
         {players[selectedTeam].map((player) => (
           <Form.Check
             type="checkbox"
