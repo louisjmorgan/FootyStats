@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
 
 function MatchPlayer({ data }) {
   return (
-    <div className="w-50 d-block mx-auto p-5">
+    <Container fluid="xl" className="mx-auto p-2">
       <h2 className="text-center text-primary">{data.name}</h2>
-      <Table className="mt-4 mx-auto w-50">
+      <Table className="mt-4 mx-auto w-100  mw-xl-50">
         <tbody>
           {data.stats ? Object.entries(data.stats).map(([name, value]) => {
             const normalizeName = name.replace(/([A-Z])/g, ' $1');
@@ -19,7 +19,7 @@ function MatchPlayer({ data }) {
           }) : <p className="text-primary text-center">Did not play</p>}
         </tbody>
       </Table>
-    </div>
+    </Container>
   );
 }
 

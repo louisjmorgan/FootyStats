@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 import FootballPitch from 'components/FootballPitch/FootballPitch';
 import Card from 'react-bootstrap/Card';
 import {
-  Nav, Tab, Form
+  Nav, Tab, Form, Stack,
 } from 'react-bootstrap';
 import { scaleLinear } from '@visx/scale';
 import { ParentSize } from '@visx/responsive';
@@ -49,8 +49,7 @@ const BALL_RECOVERY_TYPES = [
 function getEventType(events, selection, teams, displayTeam) {
   const eventType = eventTypeIdMappings[selection];
   const filteredEvents = events.filter((event) => {
-    if (displayTeam === "both" || (Number(event.teamId) === Number(teams[displayTeam])))
-      return event.satisfiedEventsTypes.indexOf(eventType) !== -1;
+    if (displayTeam === 'both' || (Number(event.teamId) === Number(teams[displayTeam]))) { return event.satisfiedEventsTypes.indexOf(eventType) !== -1; }
   });
   return filteredEvents;
 }
@@ -71,10 +70,10 @@ function calculateEventTotals(events, teams) {
 }
 
 function EventButton({
-  name, keyString, home, away, onClick, classes
+  name, keyString, home, away, onClick, classes,
 }) {
   return (
-    <Card as="button"  onClick={onClick} className={classes}>
+    <Card as="button" onClick={onClick} className={`event-button ${classes}`}>
       <Card.Body>
         <Card.Title>
           {
@@ -99,7 +98,7 @@ function EventButton({
 
 function EventPane({ statTypes, eventTotals, setSelection }) {
   return (
-    <div className="d-flex flex-wrap justify-content-center">
+    <Stack direction="horizontal" gap={2} className="d-flex flex-wrap justify-content-center">
       {statTypes.map((type) => {
         const typeId = eventTypeIdMappings[type];
         return (
@@ -112,7 +111,7 @@ function EventPane({ statTypes, eventTotals, setSelection }) {
           />
         );
       })}
-    </div>
+    </Stack>
   );
 }
 
@@ -242,7 +241,7 @@ function Chalkboard({ events, teams }) {
   const [selection, setSelection] = useState('passAccurate');
   const [eventTotals, setEventTotals] = useState();
   const [isLoaded, setLoaded] = useState(false);
-  const [displayTeam, setDisplayTeam] = useState("both")
+  const [displayTeam, setDisplayTeam] = useState('both');
 
   useEffect(() => {
     if (events) {
@@ -251,43 +250,39 @@ function Chalkboard({ events, teams }) {
     }
   }, [events, teams]);
 
-
-  function handleTeamSelect (e) {
-    setDisplayTeam(e.target.value)
-  }
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
-       <Form>
+      <Form>
         <div className="mb-3">
-        <Form.Group >
-          <Form.Check
-            inline
-            label="home"
-            value="home"
-            type="radio"
-            onChange={handleTeamSelect}
-            checked={displayTeam === "home"}
-          />
-          <Form.Check
-            inline
-            label="away"
-            value="away"
-            type="radio"
-            onChange={handleTeamSelect}
-            checked={displayTeam === "away"}
-          />
-          <Form.Check
-            inline
-            value="both"
-            label="both"
-            type="radio"
-            onChange={handleTeamSelect}
-            checked={displayTeam === "both"}
-          />
+          <Form.Group>
+            <Form.Check
+              inline
+              label="home"
+              value="home"
+              type="radio"
+              onChange={(e) => setDisplayTeam(e.target.value)}
+              checked={displayTeam === 'home'}
+            />
+            <Form.Check
+              inline
+              label="away"
+              value="away"
+              type="radio"
+              onChange={(e) => setDisplayTeam(e.target.value)}
+              checked={displayTeam === 'away'}
+            />
+            <Form.Check
+              inline
+              value="both"
+              label="both"
+              type="radio"
+              onChange={(e) => setDisplayTeam(e.target.value)}
+              checked={displayTeam === 'both'}
+            />
           </Form.Group>
         </div>
-   
-    </Form>
+
+      </Form>
       <div className="pitch-container">
         <ParentSize>
           {(parent) => (
@@ -305,7 +300,7 @@ function Chalkboard({ events, teams }) {
           defaultActiveKey="passAccurate"
           onSelect={(k) => setSelection(k)}
         >
-          <Nav className="justify-content-center p-3 mb-3 border-bottom border-secondary" direction="horizontal" gap={2}>
+          <Nav className="justify-content-center mb-3 border-bottom border-secondary" direction="horizontal" gap={2}>
             {STAT_TYPES.map((type) => {
               const typeId = eventTypeIdMappings[type.key];
               return (
@@ -324,7 +319,7 @@ function Chalkboard({ events, teams }) {
               );
             })}
           </Nav>
-          <Tab.Content>
+          <Tab.Content className="w-75">
             <Tab.Pane eventKey="passAccurate">
               <EventPane
                 statTypes={PASS_TYPES}

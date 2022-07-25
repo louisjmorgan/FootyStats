@@ -14,7 +14,7 @@ function FootballPitch({
   return (
     width
       ? (
-        <Group>
+        <Group style={{ zIndex: 1 }}>
           {/* pitch halves */}
           {/* <rect
             x={stroke}

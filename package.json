@@ -1,11 +1,13 @@
 {
   "private": "true",
   "proxy": "http://localhost:5000",
+  "homepage": "https://louisjmorgan.github.io/FootyStats",
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js",
     "build-dev": "webpack --config config/webpack.config.js",
     "build": "NODE_ENV=production webpack --config config/webpack.config.js",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
@@ -50,6 +52,7 @@
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
+    "react-simple-heatmap": "^2.0.2",
     "sass": "^1.52.1",
     "sass-loader": "^13.0.0"
   }

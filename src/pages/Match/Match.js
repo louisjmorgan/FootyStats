@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { Formations, MatchPlayer } from 'components';
+import { Formations } from 'components';
 import { getMatch, getMatchEvents } from 'api';
 import Chalkboard from 'components/Chalkboard/Chalkboard';
 import Heatmaps from 'components/Heatmaps/Heatmaps';
@@ -56,11 +56,9 @@ export default function Match() {
                 maxMinute={match.maxMinute}
                 playerIdDictionary={match.playerIdNameDictionary}
                 setPlayer={handlePlayer}
+                player={player}
                 className="bg-secondary"
               />
-              {player
-                ? <MatchPlayer data={player} />
-                : ''}
             </Tab>
             <Tab eventKey="chalkboard" title="Chalkboard">
               <Chalkboard
@@ -69,7 +67,7 @@ export default function Match() {
                 className="bg-secondary"
               />
             </Tab>
-            <Tab eventKey="heatmaps" title="Heatmaps">
+            <Tab eventKey="heatmaps" title="Heatmaps" unmountOnExit>
               <Heatmaps
                 players={{
                   home: match.home.formations[0].playerIds,

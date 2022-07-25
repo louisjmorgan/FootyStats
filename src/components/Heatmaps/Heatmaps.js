@@ -33,34 +33,90 @@ function getNetTouches(touches, selectedPlayers) {
   return netTouches;
 }
 
+function paintHeatmap(node, data) {
+  const heatmap = h337.create({
+    container: node,
+    radius: 50,
+    maxOpacity: 0.5,
+    minOpacity: 0,
+    blur: 0.7,
+  });
+  heatmap.setData({
+    data,
+  });
+  return heatmap;
+}
+
+function HeatmapGraphics({
+  data, width, height, stroke,
+}) {
+  const node = useRef(null);
+  const heatmap = useRef();
+  const ref = useCallback((element) => {
+    if (!node) return;
+    node.current = element;
+  }, []);
+
+  console.log(width, height);
+  useEffect(() => {
+    if (!node.current) return;
+    if (heatmap.current) heatmap.current._renderer.canvas.remove();
+    heatmap.current = paintHeatmap(node.current, data);
+  });
+
+  useEffect(() => (() => (
+    heatmap.current._renderer.canvas.remove()
+  )), []);
+
+  return (
+    width && data ? (
+      <>
+        <svg
+          width={width + stroke * 2}
+          height={height + stroke * 2}
+          style={{
+            position: 'absolute',
+            zIndex: 100,
+            margin: '0 auto',
+            left: 0,
+            right: 0,
+          }}
+        >
+          <FootballPitch
+            key="heatmaps"
+            width={width}
+            height={height}
+            stroke={stroke}
+          />
+        </svg>
+        <div
+          ref={ref}
+          style={{
+            position: 'absolute',
+            height: `${height - stroke * 2}px`,
+            width: `${width - stroke * 2}px`,
+            // height: '100%',
+            // width: '100%',
+            zIndex: 100,
+            margin: '0 auto',
+            top: `${stroke * 1.5}5px`,
+          }}
+          className="heatmap-container"
+        />
+      </>
+    ) : '');
+}
+
 function Heatmaps({ players, playerIdDictionary, events }) {
   const [selectedPlayers, setSelectedPlayers] = useState(players);
   const [selectedTeam, setSelectedTeam] = useState('home');
   const [touches] = useState(getPlayerTouches(players, events));
-
-  const heatmap = useRef();
-  const ref = useCallback((node) => {
-    if (!node) return;
-    heatmap.current = h337.create({
-      container: node,
-      radius: 50,
-      maxOpacity: 0.5,
-      minOpacity: 0,
-      blur: 0.7,
-    });
-    heatmap.current.setData({
-      data: getNetTouches(touches[selectedTeam], selectedPlayers[selectedTeam]),
-    });
-  }, []);
-
-  useEffect(() => (() => heatmap.current._renderer.canvas.remove()), []);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (!touches || !heatmap.current) return;
-    heatmap.current.setData({
-      data: getNetTouches(touches[selectedTeam], selectedPlayers[selectedTeam]),
-    });
-  }, [heatmap.current, touches, selectedPlayers, selectedTeam]);
+    if (!touches) return;
+    setData(() => getNetTouches(touches[selectedTeam], selectedPlayers[selectedTeam]));
+  }, [touches, selectedPlayers, selectedTeam]);
 
   function handleSelectPlayer(player) {
     const index = selectedPlayers[selectedTeam].indexOf(player);
@@ -126,7 +182,7 @@ function Heatmaps({ players, playerIdDictionary, events }) {
           <Tab eventKey="away" title="Away" />
         </Tabs> */}
       <div
-        className="pitch-container"
+        className="pitch-container heatmaps"
       >
         <ParentSize>
           {(parent) => {
@@ -134,43 +190,10 @@ function Heatmaps({ players, playerIdDictionary, events }) {
             const width = 0.9 * parent.width;
             const stroke = height / 100;
             return (
-              width ? (
-                <>
-                  <svg
-                    width={width + stroke * 2}
-                    height={height + stroke * 2}
-                    style={{
-                      position: 'absolute',
-                      zIndex: 100,
-                      margin: '0 auto',
-                      left: 0,
-                      right: 0,
-                    }}
-                  >
-                    <FootballPitch
-                      key="heatmaps"
-                      width={width}
-                      height={height}
-                      stroke={stroke}
-                    />
-                  </svg>
-                  <div
-                    ref={ref}
-                    style={{
-                      position: 'absolute',
-                      height: `${height - stroke}px`,
-                      width: `${width - stroke}px`,
-                      zIndex: 100,
-                      margin: '0 auto',
-                      top: `${stroke * 1.5}5px`,
-                    }}
-                  />
-                </>
-              ) : ''
+              <HeatmapGraphics data={data} width={width} height={height} stroke={stroke} />
             );
           }}
         </ParentSize>
-
       </div>
       <Form className="w-50 p-3 mx-auto d-flex flex-column align-items-center">
         <Form.Check type="checkbox" label="Select All" checked={selectedPlayers[selectedTeam].length === players[selectedTeam].length} onClick={() => handleSelectAll()} />
