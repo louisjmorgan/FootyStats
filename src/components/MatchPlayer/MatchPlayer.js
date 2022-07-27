@@ -11,7 +11,7 @@ function MatchPlayer({ data }) {
             const normalizeName = name.replace(/([A-Z])/g, ' $1');
             const displayName = normalizeName.charAt(0).toUpperCase() + normalizeName.slice(1);
             return (
-              <tr>
+              <tr key={name}>
                 <td className="text-primary ">{displayName}</td>
                 <td className="text-primary">{Object.keys(value).length}</td>
               </tr>

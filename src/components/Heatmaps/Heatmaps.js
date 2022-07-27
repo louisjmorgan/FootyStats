@@ -5,11 +5,11 @@
 /* eslint-disable react/prop-types */
 import FootballPitch from 'components/FootballPitch/FootballPitch';
 import {
-  useEffect, useRef, useState, useCallback,
+  useEffect, useState,
 } from 'react';
 import { Form } from 'react-bootstrap';
 import { ParentSize } from '@visx/responsive';
-import h337 from 'heatmap.js';
+import * as d3 from 'd3';
 
 function getPlayerTouches(players, events) {
   const touches = { home: [], away: [] };
@@ -33,78 +33,89 @@ function getNetTouches(touches, selectedPlayers) {
   return netTouches;
 }
 
-function paintHeatmap(node, data) {
-  const heatmap = h337.create({
-    container: node,
-    radius: 50,
-    maxOpacity: 0.5,
-    minOpacity: 0,
-    blur: 0.7,
-  });
-  heatmap.setData({
-    data,
-  });
-  return heatmap;
-}
-
 function HeatmapGraphics({
   data, width, height, stroke,
 }) {
-  const node = useRef(null);
-  const heatmap = useRef();
-  const ref = useCallback((element) => {
-    if (!node) return;
-    node.current = element;
-  }, []);
-
-  console.log(width, height);
   useEffect(() => {
-    if (!node.current) return;
-    if (heatmap.current) heatmap.current._renderer.canvas.remove();
-    heatmap.current = paintHeatmap(node.current, data);
-  });
+    if (!(width && height && data)) return;
 
-  useEffect(() => (() => (
-    heatmap.current._renderer.canvas.remove()
-  )), []);
+    const container = d3.select('.heatmaps');
+    // const xScale = d3.scaleLinear().domain([0, 500]).range([0, width]);
+    // const yScale = d3.scaleLinear().domain([0, 500]).range([height, stroke * 2]);
+    const xScale = d3.scaleLinear().domain([0, 500]).range([0, 1000]);
+    const yScale = d3.scaleLinear().domain([0, 500]).range([500, 10]);
+
+    const colorMax = 0.0075;
+    const opacity = 0.4;
+    const colorScale = d3.scaleLinear()
+      .domain([
+        0, 0.25 * colorMax,
+        0.5 * colorMax,
+        0.75 * colorMax,
+        colorMax,
+      ]) // Points per square pixel.
+      .range([
+        `rgba(0,0,255, ${opacity})`,
+        `rgba(0,255,0, ${opacity})`,
+        `rgba(0,255,255, ${opacity})`,
+        `rgba(255,255,0, ${opacity})`,
+        `rgba(255,0,0, ${opacity})`,
+      ]);
+
+    const densityData = d3.contourDensity()
+      .x((d) => xScale(d.x))
+      .y((d) => yScale(d.y))
+      .size([1000, 500])
+      .weight(10)
+      .bandwidth(18)(data);
+
+    container.selectAll('path').remove();
+    const heatmap = container.selectAll('path').data(densityData);
+    heatmap
+      .enter()
+      .append('path')
+      .attr('d', d3.geoPath())
+      .attr('fill', (d) => colorScale(d.value))
+      .attr('transform', `scale(${width / 1000})`);
+  }, [width, height, data]);
 
   return (
-    width && data ? (
-      <>
-        <svg
-          width={width + stroke * 2}
-          height={height + stroke * 2}
-          style={{
-            position: 'absolute',
-            zIndex: 100,
-            margin: '0 auto',
-            left: 0,
-            right: 0,
-          }}
-        >
-          <FootballPitch
-            key="heatmaps"
-            width={width}
-            height={height}
-            stroke={stroke}
-          />
-        </svg>
-        <div
-          ref={ref}
-          style={{
-            position: 'absolute',
-            height: `${height - stroke * 2}px`,
-            width: `${width - stroke * 2}px`,
-            // height: '100%',
-            // width: '100%',
-            zIndex: 100,
-            margin: '0 auto',
-            top: `${stroke * 1.5}5px`,
-          }}
-          className="heatmap-container"
+    <>
+      <svg
+        width={width + stroke * 2}
+        height={height + stroke * 2}
+        style={{
+          position: 'absolute',
+          zIndex: 100,
+          margin: '0 auto',
+          left: 0,
+          right: 0,
+        }}
+      >
+        <FootballPitch
+          key="heatmaps"
+          width={width}
+          height={height}
+          stroke={stroke}
         />
-      </>
-    ) : '');
+      </svg>
+      <svg
+        className="heatmaps"
+        style={{
+          position: 'absolute',
+          height: `${height - stroke}px`,
+          width: `${width - stroke}px`,
+          // height: '100%',
+          // width: '100%',
+          zIndex: 100,
+          margin: '0 auto',
+          top: `${stroke * 1.5}5px`,
+          left: 0,
+          right: 0,
+        }}
+      />
+    </>
+  );
 }
 
 function Heatmaps({ players, playerIdDictionary, events }) {
@@ -172,17 +183,8 @@ function Heatmaps({ players, playerIdDictionary, events }) {
         </div>
 
       </Form>
-      {/* <Tabs
-          id="controlled-tab-example"
-          activeKey={selectedTeam}
-          onSelect={(k) => setSelectedTeam(k)}
-          className="mb-3 justify-content-center"
-        >
-          <Tab eventKey="home" title="Home" />
-          <Tab eventKey="away" title="Away" />
-        </Tabs> */}
       <div
-        className="pitch-container heatmaps"
+        className="pitch-container"
       >
         <ParentSize>
           {(parent) => {
@@ -196,13 +198,14 @@ function Heatmaps({ players, playerIdDictionary, events }) {
         </ParentSize>
       </div>
       <Form className="w-50 p-3 mx-auto d-flex flex-column align-items-center">
-        <Form.Check type="checkbox" label="Select All" checked={selectedPlayers[selectedTeam].length === players[selectedTeam].length} onClick={() => handleSelectAll()} />
+        <Form.Check type="checkbox" label="Select All" checked={selectedPlayers[selectedTeam].length === players[selectedTeam].length} onChange={() => handleSelectAll()} />
         {players[selectedTeam].map((player) => (
           <Form.Check
             type="checkbox"
+            key={player}
             label={playerIdDictionary[player]}
             checked={selectedPlayers[selectedTeam].indexOf(player) !== -1}
-            onClick={() => handleSelectPlayer(player)}
+            onChange={() => handleSelectPlayer(player)}
           />
         ))}
       </Form>

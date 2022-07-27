@@ -124,6 +124,7 @@ function ChalkboardGraphics({
       startX: event.x,
       startY: event.y,
       isHome: Number(event.teamId) === Number(teams.home),
+      id: event.id,
 
     };
     let extEvent = {};
@@ -208,7 +209,7 @@ function ChalkboardGraphics({
       />
       <Group transform={`translate(${0}, ${0})`}>
         {events.map((event) => (
-          <Group>
+          <Group key={event.id}>
             <circle
               r={width / 150}
               cx={event.isHome
@@ -304,10 +305,9 @@ function Chalkboard({ events, teams }) {
             {STAT_TYPES.map((type) => {
               const typeId = eventTypeIdMappings[type.key];
               return (
-                <Nav.Item>
+                <Nav.Item key={type.key}>
                   <Nav.Link eventKey={type.key}>
                     <EventButton
-                      key={type.key}
                       keyString={type.key}
                       name={type.name}
                       home={eventTotals.home[typeId] || 0}

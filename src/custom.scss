@@ -85,7 +85,8 @@ h1 {
 .pitch-container {
   position: relative;
   margin: 0 auto;
-
+  width: 90vw;
+  height: 45vw;
   // @include media-breakpoint-up(sm) {
   //   width: 625px;
   //   height: 312.5px;
@@ -99,28 +100,26 @@ h1 {
   //   width: 900px;
   //   height: 450px;
   // }
-  &.formations {
-    width: 90vw;
-    height: 45vw;
-  @include media-breakpoint-up(xl) {
-    width: 60vw;
-    height: 35vw;
-  }
-  @include media-breakpoint-up(xxl) {
-    width: 65vw;
-    height: 32.5vw;
-  }
-}
 
-&.heatmaps {
-  width: 400px;
-  height: 200px;
-  @include media-breakpoint-up(xl) {
-    width: 1000px;
-  height: 500px;
-  }
-}
- 
+  // @include media-breakpoint-up(xl) {
+  //   width: 70vw;
+  //   height: 35vw;
+  // }
+  // @include media-breakpoint-up(xxl) {
+  //   width: 65vw;
+  //   height: 32.5vw;
+  // }
+
+    
+    @include media-breakpoint-up(xl) {
+      width: 60vw;
+      height: 35vw;
+    }
+    @include media-breakpoint-up(xxl) {
+      width: 65vw;
+      height: 32.5vw;
+    }
+
 }
 
 .formation-player {

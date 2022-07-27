@@ -65,7 +65,7 @@ function getSubs(squad, formation) {
 function Subs({ subs, setPlayer, playerIdDictionary }) {
   return (
     subs ? Object.entries(subs).map(([team, teamSubs]) => (
-      <Col className="my-xl-auto" xs={{ span: 3, order: team === 'home' ? 1 : 3 }} xl={{ span: 2, order: team === 'home' ? 0 : 2 }}>
+      <Col className="my-xl-auto" xs={{ span: 3, order: team === 'home' ? 1 : 3 }} xl={{ span: 2, order: team === 'home' ? 0 : 2 }} key={team}>
 
         {
             teamSubs.map((sub) => (
@@ -73,6 +73,7 @@ function Subs({ subs, setPlayer, playerIdDictionary }) {
                 className={`d-flex flex-column flex-md-row my-auto py-3 border-bottom ${team === 'home' ? '' : 'flex-md-row-reverse'}`}
                 onClick={() => setPlayer({ isHome: team === 'home', id: sub.id })}
                 role="button"
+                key={sub.id}
               >
                 <div className="mx-2">{sub.jerseyNumber}</div>
                 {' '}
@@ -117,12 +118,13 @@ function FormationGraphics({
         height={height}
         stroke={height / 100}
       />
-      <Group>
+      <Group data-testid="formations">
         {players.map((player, index) => (
           <Group
             onClick={() => setPlayer({ isHome: player.isHome, id: player.playerId })}
             role="button"
             transform={`translate(${height / 100}, ${-height / 50})`}
+            key={player.playerId}
           >
             <circle
               r={width / 70}

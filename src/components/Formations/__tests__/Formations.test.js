@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import mockMatch from '../../../mocks/responses/mockMatch.json';
 import Formations from '../Formations';
-import drawFormations from '../drawFormations';
 
 const component = (
   <Formations
@@ -16,13 +15,11 @@ const component = (
 );
 
 describe('renders football pitch container and slider correctly', () => {
-  jest.mock('d3');
-
-  test('renders pitch container', async () => {
-    render(component);
-    const pitchContainerElement = await screen.findByTestId('pitch-container');
-    expect(pitchContainerElement).toBeInTheDocument();
-  });
+  // test('renders pitch container', async () => {
+  //   render(component);
+  //   const pitchContainerElement = await screen.findByTestId('pitch-container');
+  //   expect(pitchContainerElement).toBeInTheDocument();
+  // });
 
   test('renders slider label', async () => {
     render(component);
@@ -35,23 +32,41 @@ describe('renders football pitch container and slider correctly', () => {
     const sliderElement = await screen.findByRole('slider');
     expect(sliderElement).toBeInTheDocument();
   });
-});
 
-describe('formation graphics render correctly', () => {
-  const data = {
-    home: mockMatch.match.home.formations[0],
-    away: mockMatch.match.away.formations[0],
-  };
-  const playerIdDictionary = mockMatch.match.playerIdNameDictionary;
-
-  beforeEach(() => {
-    render(<svg className="pitch" data-testid="pitch" />);
+  test('renders player circles', async () => {
+    render(component);
+    const formationsGroup = screen.getByTestId('formations');
+    const circles = formationsGroup.querySelectorAll('circle');
+    expect(circles.length).toBe(22);
   });
 
-  test('formations rendered with correct number of players', async () => {
-    drawFormations(data, playerIdDictionary, jest.fn());
-    const pitchElement = await screen.findByTestId('pitch');
-    const groups = pitchElement.querySelectorAll('g');
-    expect(groups.length).toBe(22);
+  test('renders player names and numbers', async () => {
+    render(component);
+    // check names
+    mockMatch.match.home.formations[0].playerIds.map(async (playerId) => {
+      const playerName = await screen.findByText(mockMatch.match.playerIdNameDictionary[playerId]);
+      expect(playerName).toBeInTheDocument();
+    });
+
+    mockMatch.match.away.formations[0].playerIds.map(async (playerId) => {
+      const playerName = await screen.findByText(mockMatch.match.playerIdNameDictionary[playerId]);
+      expect(playerName).toBeInTheDocument();
+    });
+
+    // check numbers
+    mockMatch.match.home.formations[0].jerseyNumbers.map(async (number) => {
+      const jerseyNumber = await screen.findByText(number);
+      expect(jerseyNumber).toBeInTheDocument();
+    });
+
+    mockMatch.match.away.formations[0].jerseyNumbers.map(async (number) => {
+      const jerseyNumber = await screen.findByText(number);
+      expect(jerseyNumber).toBeInTheDocument();
+    });
+  });
+
+  test('matches snapshot', async () => {
+    const formationsEl = render(component);
+    expect(formationsEl).toMatchSnapshot();
   });
 });

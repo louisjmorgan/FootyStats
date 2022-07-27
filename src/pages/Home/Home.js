@@ -49,7 +49,7 @@ export default function Home() {
             <option value="all">All</option>
             {
               teams.sort().map((team) => (
-                <option value={team}>{team}</option>
+                <option key={team} value={team}>{team}</option>
               ))
             }
           </Form.Select>

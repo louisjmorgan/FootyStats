@@ -1,0 +1,382 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`player match stats rendered correctly matches snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="mx-auto p-2 container-xl"
+      >
+        <h2
+          class="text-center text-primary"
+        >
+          Rui Patrício
+        </h2>
+        <table
+          class="mt-4 mx-auto w-100  mw-xl-50 table"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Total Saves
+              </td>
+              <td
+                class="text-primary"
+              >
+                2
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Parried Safe
+              </td>
+              <td
+                class="text-primary"
+              >
+                2
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Claims High
+              </td>
+              <td
+                class="text-primary"
+              >
+                1
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Possession
+              </td>
+              <td
+                class="text-primary"
+              >
+                15
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Ratings
+              </td>
+              <td
+                class="text-primary"
+              >
+                18
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Touches
+              </td>
+              <td
+                class="text-primary"
+              >
+                17
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Passes Total
+              </td>
+              <td
+                class="text-primary"
+              >
+                10
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Passes Accurate
+              </td>
+              <td
+                class="text-primary"
+              >
+                9
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Pass Success
+              </td>
+              <td
+                class="text-primary"
+              >
+                10
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Aerials Total
+              </td>
+              <td
+                class="text-primary"
+              >
+                1
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Aerials Won
+              </td>
+              <td
+                class="text-primary"
+              >
+                1
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="text-primary "
+              >
+                Defensive Aerials
+              </td>
+              <td
+                class="text-primary"
+              >
+                1
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="mx-auto p-2 container-xl"
+    >
+      <h2
+        class="text-center text-primary"
+      >
+        Rui Patrício
+      </h2>
+      <table
+        class="mt-4 mx-auto w-100  mw-xl-50 table"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Total Saves
+            </td>
+            <td
+              class="text-primary"
+            >
+              2
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Parried Safe
+            </td>
+            <td
+              class="text-primary"
+            >
+              2
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Claims High
+            </td>
+            <td
+              class="text-primary"
+            >
+              1
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Possession
+            </td>
+            <td
+              class="text-primary"
+            >
+              15
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Ratings
+            </td>
+            <td
+              class="text-primary"
+            >
+              18
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Touches
+            </td>
+            <td
+              class="text-primary"
+            >
+              17
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Passes Total
+            </td>
+            <td
+              class="text-primary"
+            >
+              10
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Passes Accurate
+            </td>
+            <td
+              class="text-primary"
+            >
+              9
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Pass Success
+            </td>
+            <td
+              class="text-primary"
+            >
+              10
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Aerials Total
+            </td>
+            <td
+              class="text-primary"
+            >
+              1
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Aerials Won
+            </td>
+            <td
+              class="text-primary"
+            >
+              1
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-primary "
+            >
+              Defensive Aerials
+            </td>
+            <td
+              class="text-primary"
+            >
+              1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

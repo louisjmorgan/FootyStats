@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { Formations } from 'components';
+import { Formations, Chalkboard, Heatmaps } from 'components';
 import { getMatch, getMatchEvents } from 'api';
-import Chalkboard from 'components/Chalkboard/Chalkboard';
-import Heatmaps from 'components/Heatmaps/Heatmaps';
 
 export default function Match() {
   const { id } = useParams();
@@ -21,7 +19,6 @@ export default function Match() {
 
   // logic
   const [tabKey, setTabKey] = useState('formations');
-  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getMatch(id)
@@ -32,14 +29,13 @@ export default function Match() {
     getMatchEvents(id)
       .then((res) => {
         setEvents(() => res.events[0].events);
-      })
-      .then(() => setLoaded(() => true));
+      });
   }, [id]);
 
   return (
     <main className="mb-5">
       <h1 className="p-5 text-center text-secondary match-heading">{title}</h1>
-      {isLoaded
+      {(match && events)
         ? (
           <Tabs
             activeKey={tabKey}
