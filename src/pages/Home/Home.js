@@ -39,7 +39,7 @@ export default function Home() {
   }
 
   return (
-    <Container fluid className="App">
+    <Container fluid className="App bg-background">
       <h1 className="p-5 text-center text-secondary">Footy Stats</h1>
 
       <Container fluid className="match-buttons  min-vh-50 p-5">

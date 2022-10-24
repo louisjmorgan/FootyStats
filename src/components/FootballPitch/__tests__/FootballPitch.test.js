@@ -5,7 +5,7 @@ describe('football pitch graphic renders correctly', () => {
   test('pitch rendered with correct number of rects', async () => {
     const pitchElement = render(<FootballPitch width={1000} height={500} stroke={5} />).baseElement;
     const rects = pitchElement.querySelectorAll('rect');
-    expect(rects.length).toBe(6);
+    expect(rects.length).toBe(7);
   });
 
   test('pitch rendered with correct number of circles', async () => {

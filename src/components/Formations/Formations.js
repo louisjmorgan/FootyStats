@@ -198,7 +198,7 @@ function Formations({
       <Container fluid>
         <Row>
           <Col xs={{ span: 12, order: 0 }} xl={{ span: 8, order: 1 }}>
-            <Form.Label className="d-block w-50 p-3 mx-auto">
+            <Form.Label className="d-block w-50 p-3 mx-auto ui-control">
               Minute:
               {' '}
               {minute}

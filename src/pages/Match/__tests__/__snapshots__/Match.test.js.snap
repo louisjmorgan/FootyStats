@@ -3,15 +3,15 @@
 exports[`matches snapshot matches snapshot 1`] = `
 <div>
   <main
-    class="mb-5"
+    class="mb-5 bg-secondary"
   >
     <h1
-      class="p-5 text-center text-secondary match-heading"
+      class="p-5 text-center text-primary match-heading bg-secondary"
     >
       Wolves 1 : 1 Tottenham
     </h1>
     <ul
-      class="m-5 justify-content-center nav nav-tabs"
+      class="m-5 justify-content-center text-black nav nav-tabs"
       role="tablist"
     >
       <li

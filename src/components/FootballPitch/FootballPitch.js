@@ -17,15 +17,15 @@ function FootballPitch({
         <svg>
           <Group style={{ zIndex: 1 }} data-testid="pitch">
             {/* pitch halves */}
-            {/* <rect
-            x={stroke}
-            y={stroke}
-            width={width}
-            height={height}
-            fill={pitchColor}
-            strokeWidth={stroke * 2}
-            stroke="black"
-          /> */}
+            <rect
+              x={stroke}
+              y={stroke}
+              width={width}
+              height={height}
+              fill={pitchColor}
+              strokeWidth={stroke * 1.5}
+              stroke="black"
+            />
             <rect
               x={stroke}
               y={stroke}

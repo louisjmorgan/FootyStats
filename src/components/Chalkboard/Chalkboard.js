@@ -46,6 +46,9 @@ const BALL_RECOVERY_TYPES = [
   'outfielderBlock',
 ];
 
+const HOME_COLOR = 'rgb(43, 131, 255)';
+const AWAY_COLOR = 'rgb(255, 57, 43)';
+
 function getEventType(events, selection, teams, displayTeam) {
   const eventType = eventTypeIdMappings[selection];
   const filteredEvents = events.filter((event) => {
@@ -98,7 +101,7 @@ function EventButton({
 
 function EventPane({ statTypes, eventTotals, setSelection }) {
   return (
-    <Stack direction="horizontal" gap={2} className="d-flex flex-wrap justify-content-center">
+    <Stack direction="horizontal" gap={2} className="d-flex flex-wrap justify-content-center event-stat">
       {statTypes.map((type) => {
         const typeId = eventTypeIdMappings[type];
         return (
@@ -163,6 +166,7 @@ function ChalkboardGraphics({
   }), [height]);
 
   const markerBox = useMemo(() => height / 60, [height]);
+
   return (
     <svg
       width={width + stroke * 2}
@@ -181,7 +185,7 @@ function ChalkboardGraphics({
           orient="auto"
         >
           <path
-            fill="white"
+            fill={`${HOME_COLOR}`}
             d={`M${markerBox / 6},${markerBox / 6} L${(markerBox * 5) / 6},${markerBox / 2} L${markerBox / 6},${(markerBox * 5) / 6} L${markerBox / 2},${markerBox / 2} L${markerBox / 6},${markerBox / 6}`}
           />
         </marker>
@@ -196,7 +200,7 @@ function ChalkboardGraphics({
           orient="auto"
         >
           <path
-            fill="black"
+            fill={`${AWAY_COLOR}`}
             d={`M${markerBox / 6},${markerBox / 6} L${(markerBox * 5) / 6},${markerBox / 2} L${markerBox / 6},${(markerBox * 5) / 6} L${markerBox / 2},${markerBox / 2} L${markerBox / 6},${markerBox / 6}`}
           />
         </marker>
@@ -216,7 +220,7 @@ function ChalkboardGraphics({
                 ? xScaleHome(event.startX)
                 : xScaleAway(event.startX)}
               cy={yScale(event.startY)}
-              fill={event.isHome ? 'white' : 'black'}
+              fill={event.isHome ? `${HOME_COLOR}` : `${AWAY_COLOR}`}
             />
             <line
               x1={event.endX
@@ -227,7 +231,7 @@ function ChalkboardGraphics({
               y2={yScale(event.endY)}
               opacity={1}
               markerEnd={event.isHome ? 'url(#arrow-home)' : 'url(#arrow-away)'}
-              stroke={event.isHome ? 'white' : 'black'}
+              stroke={event.isHome ? `${HOME_COLOR}` : `${AWAY_COLOR}`}
               strokeWidth={stroke / 2}
 
             />
@@ -239,7 +243,7 @@ function ChalkboardGraphics({
 }
 
 function Chalkboard({ events, teams }) {
-  const [selection, setSelection] = useState('passAccurate');
+  const [selection, setSelection] = useState('shotsTotal');
   const [eventTotals, setEventTotals] = useState();
   const [isLoaded, setLoaded] = useState(false);
   const [displayTeam, setDisplayTeam] = useState('both');
@@ -254,7 +258,7 @@ function Chalkboard({ events, teams }) {
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <Form>
-        <div className="mb-3">
+        <div className="mb-3 ui-control">
           <Form.Group>
             <Form.Check
               inline
@@ -298,10 +302,11 @@ function Chalkboard({ events, teams }) {
       </div>
       {isLoaded ? (
         <Tab.Container
-          defaultActiveKey="passAccurate"
+          defaultActiveKey="shotsTotal"
           onSelect={(k) => setSelection(k)}
+          transition={false}
         >
-          <Nav className="justify-content-center mb-3 border-bottom border-secondary" direction="horizontal" gap={2}>
+          <Nav className="justify-content-center mb-3 border-bottom border-secondary event-tab" direction="horizontal" gap={2}>
             {STAT_TYPES.map((type) => {
               const typeId = eventTypeIdMappings[type.key];
               return (

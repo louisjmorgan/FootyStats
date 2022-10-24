@@ -3,9 +3,9 @@ import { Container, Table } from 'react-bootstrap';
 
 function MatchPlayer({ data }) {
   return (
-    <Container fluid="xl" className="mx-auto p-2">
+    <Container fluid="xl" className="mx-auto p-2 player-stats">
       <h2 className="text-center text-primary">{data.name}</h2>
-      <Table className="mt-4 mx-auto w-100  mw-xl-50">
+      <Table className="mt-4 mx-auto w-75 mw-xl-50">
         <tbody>
           {data.stats ? Object.entries(data.stats).map(([name, value]) => {
             const normalizeName = name.replace(/([A-Z])/g, ' $1');

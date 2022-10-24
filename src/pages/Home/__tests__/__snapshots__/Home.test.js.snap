@@ -3,7 +3,7 @@
 exports[`matches snapshot matches snapshot 1`] = `
 <div>
   <div
-    class="App container-fluid"
+    class="App bg-background container-fluid"
   >
     <h1
       class="p-5 text-center text-secondary"

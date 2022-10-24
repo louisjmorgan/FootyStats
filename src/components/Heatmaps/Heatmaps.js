@@ -161,7 +161,7 @@ function Heatmaps({ players, playerIdDictionary, events }) {
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <Form>
-        <div className="mb-3">
+        <div className="mb-3 ui-control">
           <Form.Group>
             <Form.Check
               inline
@@ -197,7 +197,7 @@ function Heatmaps({ players, playerIdDictionary, events }) {
           }}
         </ParentSize>
       </div>
-      <Form className="w-50 p-3 mx-auto d-flex flex-column align-items-center">
+      <Form className="w-50 p-3 mx-auto d-flex flex-column align-items-center ui-control fw-bold">
         <Form.Check type="checkbox" label="Select All" checked={selectedPlayers[selectedTeam].length === players[selectedTeam].length} onChange={() => handleSelectAll()} />
         {players[selectedTeam].map((player) => (
           <Form.Check
@@ -206,6 +206,7 @@ function Heatmaps({ players, playerIdDictionary, events }) {
             label={playerIdDictionary[player]}
             checked={selectedPlayers[selectedTeam].indexOf(player) !== -1}
             onChange={() => handleSelectPlayer(player)}
+            className="p-2 fw-normal"
           />
         ))}
       </Form>

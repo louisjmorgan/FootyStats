@@ -34,13 +34,13 @@ export default function Match() {
 
   return (
     <main className="mb-5">
-      <h1 className="p-5 text-center text-secondary match-heading">{title}</h1>
+      <h1 className="p-5 text-center text-primary match-heading bg-secondary">{title}</h1>
       {(match && events)
         ? (
           <Tabs
             activeKey={tabKey}
             onSelect={(k) => setTabKey(k)}
-            className="m-5 justify-content-center"
+            className="mb-3 justify-content-center text-black"
             mountOnEnter
           >
             <Tab eventKey="formations" title="Formations">
