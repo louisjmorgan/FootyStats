@@ -13,7 +13,6 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 
 
-const unless = (...paths) => (req, res, next) => paths.some(path => path === req.path) && next();
 
 //initialize express and middleware
 var app = express();
@@ -21,7 +20,6 @@ var app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'client')));
 
 // initialize routes
 // var indexRouter = require('./routes/index');
@@ -29,16 +27,9 @@ var usersRouter = require('./routes/users');
 var matchesRouter = require('./routes/matches')
 
 // filter other apis
-app.use(unless("/footystats/users", "/footystats/matches"));
-app.use('/footystats/users', usersRouter);
-app.use('/footystats/matches', matchesRouter);
+app.use('/users', usersRouter);
+app.use('/matches', matchesRouter);
 
-// console.log(path.join(__dirname, '..', '/client/public/index.html'))
-
-// app.get('/*', (req,res) => {
-//   res.sendFile(path.join(__dirname, '..', '/client/public/index.html'));
-  
-// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
