@@ -1,12 +1,8 @@
-import {api } from "api";
+import { api } from 'api';
+
 export default async function getMatches(id) {
-  console.log(api)
-  const response = await fetch(`${api}/matches/${id}/events`, { 
-    method: "GET", 
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json",
-  },
+  const response = await fetch(`${api}/matches/${id}/events`, {
+    method: 'GET',
   });
   const body = response.json();
 
