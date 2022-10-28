@@ -33,7 +33,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '..', 'dist/footystats'),
     filename: '[name].bundle.js',
-    publicPath: './',
     assetModuleFilename: 'assets/[hash][ext][query]',
   },
 

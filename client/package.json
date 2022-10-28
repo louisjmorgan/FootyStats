@@ -1,7 +1,7 @@
 {
   "private": "true",
   "proxy": "http://localhost:5000",
-  "homepage": "https://louisjmorgan.github.io/FootyStats",
+  "homepage": "./footystats",
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js",
     "build-dev": "webpack --config config/webpack.config.js",
