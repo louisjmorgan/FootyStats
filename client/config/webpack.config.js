@@ -32,8 +32,8 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, '..', 'dist/projects/footystats'),
-    filename: 'bundle.js',
-    publicPath: '/',
+    filename: '[name].bundle.js',
+    publicPath: './',
     assetModuleFilename: 'assets/[hash][ext][query]',
   },
 
@@ -75,7 +75,7 @@ module.exports = {
       secure: false,
       changeOrigin: true,
     },
-    static: path.resolve(__dirname, '..', './dist/projects/footystats'),
+    static: path.resolve(__dirname, '..', './dist/projects/footystats/'),
     hot: true,
     historyApiFallback: true,
   },
