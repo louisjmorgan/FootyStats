@@ -16,8 +16,6 @@ if (app) {
     history.replace(path);
   }
 
-  console.log(path);
-
   // 2. Render our app
   const root = ReactDOM.createRoot(document.getElementById('root'));
   root.render(
