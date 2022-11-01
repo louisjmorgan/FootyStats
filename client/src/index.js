@@ -5,7 +5,7 @@ import './custom.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter basename="projects/footystats">
+  <BrowserRouter basename="">
     <App />
   </BrowserRouter>,
 );
