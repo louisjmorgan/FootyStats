@@ -13,7 +13,7 @@ if (app) {
   // (minus the # sign)
   const path = (/#!(\/.*)$/.exec(location.hash) || [])[1];
   if (path) {
-    history.replace(path);
+    history.replace(`projects/footystats${path}`);
   }
 
   // 2. Render our app
